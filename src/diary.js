@@ -11,14 +11,35 @@ export class Diary {
           (config.group.indexOf('*') !== -1 || config.group.indexOf(group) !== -1)
          ) {
         reporter.receive({
-          level: level, 
-          group: group, 
-          message: message
+          level, group, message
         });
       }
     }
   }
+
+  /**
+   * Factory method for convenient logger construction.
+   */
+  static logger(group) {
+    return new Diary(group);
+  }
+  /**
+   * Register a reporter.
+   */
+  static reporter(reporter, config = {}) {
+    var defaults = { level: ['*'], group: ['*'] };
+    config = [defaults, config].reduce(Object.assign);
+    Diary.reporters.push({
+      reporter, config
+    });
+  }
+
+  static get reporters() {
+    return reporters;
+  }
 }
+
+var reporters = [];
 
 /**
  * Dynamically construct all of the log level functions.
@@ -28,28 +49,3 @@ for (var level of ['info', 'warn', 'fatal', 'error']) (function(level) {
     this.log(level, this.group, message);
   }
 })(level);
-
-Diary.reporters = [];
-
-/**
- * Factory method for convenient logger construction.
- */
-Diary.logger = (group) => {
-  return new Diary(group);
-}
-
-/**
- * Register a reporter.
- */
-Diary.reporter = (instance, config) => {
-
-  var defaults = { level: ['*'], group: ['*'] };
-  var config = config || {};
-  for (var key in defaults) {
-    config[key] = config[key] || defaults[key];
-  }
-  Diary.reporters.push({
-    reporter: instance,
-    config: config
-  });
-}
