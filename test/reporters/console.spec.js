@@ -1,4 +1,4 @@
-import {ConsoleReporter} from '../../src/reporters/console.js';
+import {ConsoleReporter} from '../../src/reporters/console';
 
 describe('ConsoleReporter', () => {
   var reporter, target;

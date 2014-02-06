@@ -9,12 +9,6 @@
   "author": "",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "gulp": "~3.2.1",
-    "karma-chrome-launcher": "~0.1.2",
-    "karma-jasmine": "~0.1.5",
-    "karma-requirejs": "~0.2.1",
-    "karma": "~0.10.8",
-    "karma-traceur": "git://github.com/vojtajina/karma-traceur-preprocessor.git#using-traceur-from-gh",
-    "gulp-traceur": "~0.1.0"
+    "pipe": "git://github.com/angular/pipe#master"
   }
 }

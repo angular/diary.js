@@ -1,4 +1,4 @@
-import {Diary} from '../src/diary.js';
+import {Diary} from '../src/diary';
 
 describe('Diary', () => {
   var logger, reporter;
