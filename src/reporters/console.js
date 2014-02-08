@@ -1,7 +1,7 @@
 export class ConsoleReporter {
 
   constructor(options) {
-    this.console = options.console;
+    this.console = options.console || window.console;
   }
 
   receive(log) {
