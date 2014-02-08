@@ -6,7 +6,24 @@ export class ConsoleReporter {
 
   receive(log) {
     var {level, group, message} = log;
-    // TODO Too assuming about current browser console implementations.
-    this.console[level](`[${level}|${group}] ${message}`);
+    var processed = `[${level}|${group}] ${message}`;
+
+    if (level === 'fatal') {
+      this.error(processed);
+    } else {
+      this[level](processed);
+    }
+  }
+
+  info(message) {
+    this.console.info(message);
+  }
+
+  warn(message) {
+    this.console.warn(message);
+  }
+
+  error(message) {
+    this.console.error(message);
   }
 }
