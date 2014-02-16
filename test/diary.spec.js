@@ -50,7 +50,7 @@ describe('Diary', () => {
       group: 'feature',
       message: 'a info message'
     });
-    expect(featureReporter.receive.calls.length).toEqual(1);
+    expect(featureReporter.receive.calls.count()).toEqual(1);
   });
 
   it('should support info, warn, fatal & error', () => {
@@ -59,7 +59,7 @@ describe('Diary', () => {
     logger.fatal('fatal');
     logger.error('error');
 
-    expect(reporter.receive.calls.length).toEqual(4);
+    expect(reporter.receive.calls.count()).toEqual(4);
   });
 
   it('should accept a string as the config level', () => {
@@ -70,7 +70,7 @@ describe('Diary', () => {
     Diary.reporter(string, { level: 'warn' });
     var log = Diary.logger('custom');
     log.warn('hello');
-    expect(string.receive.calls.length).toEqual(1);
+    expect(string.receive.calls.count()).toEqual(1);
 
   });
 
@@ -116,7 +116,7 @@ describe('Diary', () => {
 
     httpLogger.info('hello');
     logger.info('global');
-    expect(http.receive.calls.length).toEqual(1);
+    expect(http.receive.calls.count()).toEqual(1);
     expect(http.receive).toHaveBeenCalledWith({ level: 'info', group: 'http', message: 'hello' });
 
   });
