@@ -1,6 +1,7 @@
 export class Diary {
   constructor(group) {
     this.group = group;
+    this.timers = {};
   }
 
   log(level, group, message) {
@@ -15,6 +16,19 @@ export class Diary {
         });
       }
     }
+  }
+
+  time(name) {
+    this.timers[name] = Date.now();
+  }
+
+  timeEnd(name) {
+    this.log('timer', this.group, {
+      name: name,
+      elapsed: this.timers[name] - Date.now() 
+    });
+
+    delete this.timers[name];
   }
 
   /**
