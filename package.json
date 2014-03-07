@@ -9,6 +9,6 @@
   "author": "",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "pipe": "git://github.com/angular/pipe#master"
+    "pipe": "git://github.com/angular/pipe#assert"
   }
 }
