@@ -10,8 +10,16 @@ describe('ConsoleReporter', () => {
     });
   });
 
-  it('should construct a class', () => {
-    expect(reporter).toBeDefined();
+  describe('constructor', () => {
+
+    it('should construct a class', () => {
+      expect(reporter).toBeDefined();
+    });
+
+    it('should gracefully handle the absence of an options parameter', () => {
+      expect(() => { new ConsoleReporter(); }).not.toThrow();
+    });
+
   });
 
   describe('receive', () => {

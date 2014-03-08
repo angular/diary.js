@@ -1,6 +1,6 @@
 export class ConsoleReporter {
 
-  constructor(options) {
+  constructor(options = {}) {
     this.console = options.console || window.console;
   }
 
