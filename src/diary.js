@@ -1,20 +1,47 @@
+import guid from './guid';
+
 export class Diary {
   constructor(group) {
     this.group = group;
+    this.isTiming = false;
   }
 
-  log(level, group, message) {
+  log(level, group, message, endOf = false) {
+    var id = guid();
+    var message = {
+      level, group, message,
+      timestamp: Date.now(),
+      guid: id
+    };
+
+
+    if (endOf) {
+      message.endOf = endOf;
+    }
+
     for (var target of Diary.reporters) {
       var {config, reporter} = target;
       if ((config.level.indexOf('*') !== -1 || config.level.indexOf(level) !== -1)
           &&
           (config.group.indexOf('*') !== -1 || config.group.indexOf(group) !== -1)
          ) {
-        reporter.receive({
-          level, group, message
-        });
+        reporter.receive(message);
       }
     }
+
+    if (this.isTiming) {
+      this.isTiming = false;
+
+      return (message) => {
+        return this.log(level, group, message, id);
+      };
+    }
+
+  }
+
+  get start() {
+    this.isTiming = true;
+    return this;
   }
 
   /**
@@ -46,6 +73,6 @@ var reporters = [];
  */
 for (var level of ['info', 'warn', 'fatal', 'error']) (function(level) {
   Diary.prototype[level] = function(message) {
-    this.log(level, this.group, message);
+    return this.log(level, this.group, message);
   }
 })(level);
