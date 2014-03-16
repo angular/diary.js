@@ -120,21 +120,5 @@ describe('Diary', () => {
     expect(http.receive).toHaveBeenCalledWith({ level: 'info', group: 'http', message: 'hello' });
 
   });
-
-  describe('profiling', () => {
-    it('should trigger beginning and ending events', () => {
-      logger.time('test');
-      logger.timeEnd('test');
-
-      expect(reporter.receive).toHaveBeenCalledWith({
-        level: 'timer',
-        group: 'feature',
-        message: {
-          name: 'test',
-          elapsed: jasmine.any(Number) 
-        }
-      });
-    });
-  });
   
 });
