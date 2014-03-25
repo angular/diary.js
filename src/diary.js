@@ -29,9 +29,14 @@ export class Diary {
   static reporter(reporter, config = {}) {
     var defaults = { level: ['*'], group: ['*'] };
     config = [defaults, config].reduce(Object.assign);
-    Diary.reporters.push({
+    var newReporter = {
       reporter, config
-    });
+    };
+    var index = Diary.reporters.push(newReporter);
+    
+    return () => {
+      Diary.reporters.splice(Diary.reporters.indexOf(newReporter), 1);
+    };
   }
 
   static get reporters() {
