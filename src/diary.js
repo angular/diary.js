@@ -32,7 +32,8 @@ export class Diary {
     var newReporter = {
       reporter, config
     };
-    var index = Diary.reporters.push(newReporter);
+
+    Diary.reporters.push(newReporter);
     
     return () => {
       Diary.reporters.splice(Diary.reporters.indexOf(newReporter), 1);
