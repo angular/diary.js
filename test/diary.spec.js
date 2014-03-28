@@ -1,5 +1,25 @@
 import {Diary} from '../src/diary';
 
+describe('Diary Reporter Registration', () => {
+  it('should provide a callback to unregister the reporter', () => {
+    var remove = Diary.reporter({ receive() {}});
+    expect(remove).toBeDefined();
+    expect(Diary.reporters.length).toEqual(1);
+    remove();
+    expect(Diary.reporters.length).toEqual(0);
+  });
+
+  it('should remove the correct reporter', () => {
+    var persist = { receive() {}};
+    var remove = Diary.reporter({ receive() {}});
+    Diary.reporter(persist);
+    expect(Diary.reporters.length).toEqual(2);
+    remove();
+    expect(Diary.reporters.length).toEqual(1);
+    expect(Diary.reporters[0].reporter).toEqual(persist);
+  });
+});
+
 describe('Diary', () => {
   var logger, reporter;
 
@@ -12,6 +32,7 @@ describe('Diary', () => {
   it('logger should provide an object', () => {
     expect(logger).not.toBeUndefined();
   });
+
 
   it('it should log the event to all reporters', () => {
     logger.log('info', 'feature', 'ahoy');
