@@ -17,7 +17,7 @@ require.config({
   baseUrl: '/base',
 
   paths: {
-    'assert': './node_modules/pipe/node_modules/assert/dist/amd/assert'
+    'assert': './node_modules/assert/dist/amd/assert'
   },
 
   // dynamically load all test files

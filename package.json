@@ -17,6 +17,15 @@
   "author": "Merrick Christensen <merrick.christensen@gmail.com>",
   "license": "Apache License 2.0",
   "devDependencies": {
-    "pipe": "git://github.com/angular/pipe#assert"
+    "assert": "git://github.com/angular/assert#dist",
+    "gulp": "^3.5.6",
+    "gulp-connect": "~1.0.5",
+    "gulp-traceur": "~0.4.0",
+    "karma": "^0.12.1",
+    "karma-chrome-launcher": "^0.1.2",
+    "karma-jasmine": "^0.2.2",
+    "karma-requirejs": "^0.2.1",
+    "karma-traceur-preprocessor": "^0.2.2",
+    "pipe": "git://github.com/angular/pipe#remove-transitive-deps"
   }
 }
