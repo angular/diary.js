@@ -9,7 +9,7 @@ describe('MockReporter', () => {
       expect(reporter.logs).toEqual([]);
     });
 
-  }
+  });
 
 
   describe('receive', () => {
