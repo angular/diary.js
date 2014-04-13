@@ -38,20 +38,22 @@ describe('Diary', () => {
     logger.log('info', 'feature', 'ahoy');
 
     expect(reporter.receive).toHaveBeenCalledWith({
+      guid: jasmine.any(Number),
       level: 'info',
       group: 'feature', 
-      message: 'ahoy'
+      message: 'ahoy',
+      timestamp: jasmine.any(Number)
     });
   });
 
   it('should log my info', () => {
     logger.info('my test message');
 
-    expect(reporter.receive).toHaveBeenCalledWith({
+    expect(reporter.receive).toHaveBeenCalledWith(jasmine.objectContaining({
       level: 'info',
       group: 'feature',
       message: 'my test message'
-    });
+    }));
   });
 
   it('should only send events for info', () => {
@@ -66,11 +68,11 @@ describe('Diary', () => {
     logger.info('a info message');
     logger.warn('a warn message');
 
-    expect(featureReporter.receive).toHaveBeenCalledWith({
+    expect(featureReporter.receive).toHaveBeenCalledWith(jasmine.objectContaining({
       level: 'info', 
       group: 'feature',
       message: 'a info message'
-    });
+    }));
     expect(featureReporter.receive.calls.count()).toEqual(1);
   });
 
@@ -108,17 +110,17 @@ describe('Diary', () => {
     logger.info('a info message');
     logger.warn('a warn message');
 
-    expect(universal.receive).toHaveBeenCalledWith({
+    expect(universal.receive).toHaveBeenCalledWith(jasmine.objectContaining({
       level: 'info',
       group: 'feature',
       message: 'a info message'
-    });
+    }));
 
-    expect(universal.receive).toHaveBeenCalledWith({
+    expect(universal.receive).toHaveBeenCalledWith(jasmine.objectContaining({
       level: 'warn',
       group: 'feature',
       message: 'a warn message'
-    });
+    }));
 
   });
 
@@ -138,7 +140,46 @@ describe('Diary', () => {
     httpLogger.info('hello');
     logger.info('global');
     expect(http.receive.calls.count()).toEqual(1);
-    expect(http.receive).toHaveBeenCalledWith({ level: 'info', group: 'http', message: 'hello' });
+    expect(http.receive).toHaveBeenCalledWith(jasmine.objectContaining({ level: 'info', group: 'http', message: 'hello' }));
+
+  });
+
+  describe('time', () => {
+
+    it('should return the same instance', () => {
+      expect(logger).toBe(logger.start);
+    });
+
+    it('should return a function to invoke on done', () => {
+      var end = logger.start.info('starting the time test');
+      expect(end).toBeDefined();
+    });
+
+    it('should send a log message when the timer is started', () => {
+      logger.start.info('starting the time test');
+      expect(reporter.receive.calls.count()).toEqual(1);
+    });
+
+    it('the callback should invoke another log', () => {
+      var end = logger.start.info('starting');
+      end('ending');
+      expect(reporter.receive).toHaveBeenCalledWith(jasmine.objectContaining({
+        level: 'info', 
+        group: 'feature', 
+        message: 'ending'
+      }));
+    });
+
+    it('the end log should reference the message it is ending', () => {
+      var done = logger.start.info('starting');
+      done('ending');
+
+      var start =  reporter.receive.calls.argsFor(0)[0];
+      var end  =  reporter.receive.calls.argsFor(1)[0];
+
+      expect(end.endOf).toBeDefined()
+      expect(end.endOf).toEqual(start.guid);
+    });
 
   });
   
